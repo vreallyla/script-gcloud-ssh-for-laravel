@@ -5,12 +5,13 @@ name: UP SERVER
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "tanzilal" ]
 
 env:
   HOST: ${{secrets.HOST}}
   USERNAME: ${{secrets.USERNAME}}
   PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
+
 
 
 jobs:
@@ -23,10 +24,13 @@ jobs:
     - name: deploy using ssh
       uses: appleboy/ssh-action@v0.1.6
       with:
-        host: "$HOST"
-        username: "$USERNAME"
-        key: "$PRIVATE_KEY"
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         script: |
-          cd /home/anarya/test
-          pwd
+          cd /home/anarya/kalbe-webadmin
+          git status
+          git pull
+          npm i --only=prod
+          npm run build
